@@ -4,6 +4,7 @@ import { ChartLine, MapPin, Package, Tag } from 'lucide-react'
 import { Toaster } from './components/ui/toaster'
 
 import { AddCategoryDialog } from './components/AddCategoryDialog'
+import { AddLocationDialog } from './components/AddLocationDialog'
 import { AnalyticsContainer } from './components/analytics/AnalyticsContainer'
 import { CategoriesContainer } from './components/categories/CategoriesContainer'
 import { ItemsContainer } from './components/items/ItemsContainer'
@@ -29,6 +30,7 @@ function App() {
   const [categoriesMap, setCategoriesMap] = useState<CategoriesMap>(generateCategories(CATEGORIES_DATA, items))
   const [locationsMap, setLocationsMap] = useState<LocationsMap>(mapLocations(LOCATIONS_DATA, items))
   const [showAddCategoryDialog, setShowAddCategoryDialog] = useState(false)
+  const [showAddLocationDialog, setShowAddLocationDialog] = useState(false)
 
   return (
     <Box width="100%">
@@ -56,7 +58,11 @@ function App() {
           <ItemsContainer />
         </Tabs.Content>
         <Tabs.Content value="locations" className="tab-content">
-          <LocationsContainer />
+          <LocationsContainer
+            locationsMap={locationsMap}
+            setLocationsMap={setLocationsMap}
+            setShowAddLocationDialog={setShowAddLocationDialog}
+          />
         </Tabs.Content>
         <Tabs.Content value="categories" className="tab-content">
           <CategoriesContainer
@@ -75,6 +81,12 @@ function App() {
         setCategoriesMap={setCategoriesMap}
         setShowAddCategoryDialog={setShowAddCategoryDialog}
         showAddCategoryDialog={showAddCategoryDialog}
+      />
+      <AddLocationDialog
+        locationsMap={locationsMap}
+        setLocationsMap={setLocationsMap}
+        setShowAddLocationDialog={setShowAddLocationDialog}
+        showAddLocationDialog={showAddLocationDialog}
       />
     </Box>
   )
