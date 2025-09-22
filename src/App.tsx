@@ -1,13 +1,31 @@
+import { useState } from 'react'
 import { Box, Tabs } from '@chakra-ui/react'
 import { ChartLine, MapPin, Package, Tag } from 'lucide-react'
+
 import { AnalyticsContainer } from './components/analytics/AnalyticsContainer'
 import { CategoriesContainer } from './components/categories/CategoriesContainer'
 import { ItemsContainer } from './components/items/ItemsContainer'
 import { LocationsContainer } from './components/locations/LocationsContainer'
 
+// interfaces
+import type { Item } from './interfaces/item'
+import type { CategoriesMap } from './interfaces/categoryMap'
+import type { LocationsMap } from './interfaces/locationsMap'
+
+// data consts
+import { ITEMS_DATA } from './data/items'
+import { CATEGORIES_DATA } from './data/categories'
+import { LOCATIONS_DATA } from './data/locations'
+
+import { generateCategories } from './utils/categories'
+import { mapLocations } from './utils/locations'
+
 const ICON_SIZE = 18
 
 function App() {
+  const [items, setItems] = useState<Item[]>(ITEMS_DATA)
+  const [categoriesMap, setCategoriesMap] = useState<CategoriesMap>(generateCategories(CATEGORIES_DATA, items))
+  const [locationsMap, setLocationsMap] = useState<LocationsMap>(mapLocations(LOCATIONS_DATA, items))
 
   return (
     <Box width="100%">
