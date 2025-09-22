@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Box, Tabs } from '@chakra-ui/react'
 import { ChartLine, MapPin, Package, Tag } from 'lucide-react'
+import { Toaster } from './components/ui/toaster'
 
+import { AddCategoryDialog } from './components/AddCategoryDialog'
 import { AnalyticsContainer } from './components/analytics/AnalyticsContainer'
 import { CategoriesContainer } from './components/categories/CategoriesContainer'
 import { ItemsContainer } from './components/items/ItemsContainer'
@@ -26,6 +28,7 @@ function App() {
   const [items, setItems] = useState<Item[]>(ITEMS_DATA)
   const [categoriesMap, setCategoriesMap] = useState<CategoriesMap>(generateCategories(CATEGORIES_DATA, items))
   const [locationsMap, setLocationsMap] = useState<LocationsMap>(mapLocations(LOCATIONS_DATA, items))
+  const [showAddCategoryDialog, setShowAddCategoryDialog] = useState(false)
 
   return (
     <Box width="100%">
@@ -56,12 +59,23 @@ function App() {
           <LocationsContainer />
         </Tabs.Content>
         <Tabs.Content value="categories" className="tab-content">
-          <CategoriesContainer />
+          <CategoriesContainer
+            categoriesMap={categoriesMap}
+            setCategoriesMap={setCategoriesMap}
+            setShowAddCategoryDialog={setShowAddCategoryDialog}
+          />
         </Tabs.Content>
         <Tabs.Content value="analytics" className="tab-content">
           <AnalyticsContainer />
         </Tabs.Content>
       </Tabs.Root>
+      <Toaster />
+      <AddCategoryDialog
+        categoriesMap={categoriesMap}
+        setCategoriesMap={setCategoriesMap}
+        setShowAddCategoryDialog={setShowAddCategoryDialog}
+        showAddCategoryDialog={showAddCategoryDialog}
+      />
     </Box>
   )
 }
