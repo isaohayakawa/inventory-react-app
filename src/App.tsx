@@ -55,7 +55,12 @@ function App() {
           <Tabs.Indicator />
         </Tabs.List>
         <Tabs.Content value="items" className="tab-content">
-          <ItemsContainer />
+          <ItemsContainer
+            categoriesMap={categoriesMap}
+            items={items}
+            locationsMap={locationsMap}
+            setItems={setItems}
+          />
         </Tabs.Content>
         <Tabs.Content value="locations" className="tab-content">
           <LocationsContainer
