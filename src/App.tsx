@@ -1,5 +1,9 @@
 import { Box, Tabs } from '@chakra-ui/react'
 import { ChartLine, MapPin, Package, Tag } from 'lucide-react'
+import { AnalyticsContainer } from './components/analytics/AnalyticsContainer'
+import { CategoriesContainer } from './components/categories/CategoriesContainer'
+import { ItemsContainer } from './components/items/ItemsContainer'
+import { LocationsContainer } from './components/locations/LocationsContainer'
 
 const ICON_SIZE = 18
 
@@ -28,16 +32,16 @@ function App() {
           <Tabs.Indicator />
         </Tabs.List>
         <Tabs.Content value="items" className="tab-content">
-          Items
+          <ItemsContainer />
         </Tabs.Content>
         <Tabs.Content value="locations" className="tab-content">
-          Locations
+          <LocationsContainer />
         </Tabs.Content>
         <Tabs.Content value="categories" className="tab-content">
-          Categories
+          <CategoriesContainer />
         </Tabs.Content>
         <Tabs.Content value="analytics" className="tab-content">
-          Analytics
+          <AnalyticsContainer />
         </Tabs.Content>
       </Tabs.Root>
     </Box>
