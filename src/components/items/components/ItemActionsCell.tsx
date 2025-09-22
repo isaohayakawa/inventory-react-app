@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button, CloseButton, Dialog, IconButton, Portal, Table } from "@chakra-ui/react"
 import { Minus, Pencil, Trash } from 'lucide-react'
 import type { Item } from "../../../interfaces/item"
+import { Tooltip } from '../../ui/tooltip'
 
 const BUTTON_SIZE = "xs"
 const BUTTON_VARIANT = "ghost"
@@ -64,29 +65,35 @@ export const ItemActionsCell = ({ item, items, setItems }: {
   return (
     <>
       <Table.Cell>
-        <IconButton
-          aria-label="Use one item"
-          size={BUTTON_SIZE}
-          onClick={decrementQuantity}
-          variant={BUTTON_VARIANT}
-        >
-          <Minus size={ICON_SIZE} />
-        </IconButton>
-        <IconButton
-          aria-label="Edit item"
-          size={BUTTON_SIZE}
-          variant={BUTTON_VARIANT}
-        >
-          <Pencil size={ICON_SIZE} />
-        </IconButton>
-        <IconButton
-          aria-label="Delete item"
-          size={BUTTON_SIZE}
-          onClick={deleteAction}
-          variant={BUTTON_VARIANT}
-        >
-          <Trash size={ICON_SIZE} />
-        </IconButton>
+        <Tooltip content="Use one item">
+          <IconButton
+            aria-label="Use one item"
+            size={BUTTON_SIZE}
+            onClick={decrementQuantity}
+            variant={BUTTON_VARIANT}
+          >
+            <Minus size={ICON_SIZE} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip content="Edit item">
+          <IconButton
+            aria-label="Edit item"
+            size={BUTTON_SIZE}
+            variant={BUTTON_VARIANT}
+          >
+            <Pencil size={ICON_SIZE} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip content="Delete item">
+          <IconButton
+            aria-label="Delete item"
+            size={BUTTON_SIZE}
+            onClick={deleteAction}
+            variant={BUTTON_VARIANT}
+          >
+            <Trash size={ICON_SIZE} />
+          </IconButton>
+        </Tooltip>
       </Table.Cell>
       <Dialog.Root open={deleteConfirmationOpen}>
         <Portal>

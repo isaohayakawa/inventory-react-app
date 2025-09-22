@@ -4,6 +4,7 @@ import { Pencil, Trash } from 'lucide-react'
 import type { CategoriesMap } from '../../../interfaces/categoryMap'
 import type { CategoryFromMap } from '../../../interfaces/categoryFromMap'
 import { toaster } from '../../ui/toaster'
+import { Tooltip } from '../../ui/tooltip'
 
 const BUTTON_SIZE = "xs"
 const BUTTON_VARIANT = "ghost"
@@ -52,22 +53,26 @@ export const CategoriesActionsCell = ({ category, categoriesMap, setCategoriesMa
   return (
     <>
       <Table.Cell>
-        <IconButton
-          aria-label="Edit category"
-          size={BUTTON_SIZE}
-          variant={BUTTON_VARIANT}
-          onClick={editAction}
-        >
-          <Pencil size={ICON_SIZE} />
-        </IconButton>
-        <IconButton
-          aria-label="Delete category"
-          size={BUTTON_SIZE}
-          variant={BUTTON_VARIANT}
-          onClick={deleteAction}
-        >
-          <Trash size={ICON_SIZE} />
-        </IconButton>
+        <Tooltip content="Edit category">
+          <IconButton
+            aria-label="Edit category"
+            size={BUTTON_SIZE}
+            variant={BUTTON_VARIANT}
+            onClick={editAction}
+          >
+            <Pencil size={ICON_SIZE} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip content="Delete category">
+          <IconButton
+            aria-label="Delete category"
+            size={BUTTON_SIZE}
+            variant={BUTTON_VARIANT}
+            onClick={deleteAction}
+          >
+            <Trash size={ICON_SIZE} />
+          </IconButton>
+        </Tooltip>
       </Table.Cell>
       <Dialog.Root open={deleteConfirmationOpen}>
         <Portal>
