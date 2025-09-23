@@ -7,7 +7,7 @@ import type { Item } from '../../interfaces/item'
 import type { CategoriesMap } from '../../interfaces/categoryMap'
 import type { LocationsMap } from '../../interfaces/locationsMap'
 import { ItemsToolbar } from './components/ItemsToolbar'
-import { AddItemForm } from './components/AddItemForm'
+import { AddEditItemForm } from './components/AddEditItemForm'
 
 export const ItemsContainer = ({ categoriesMap, items, locationsMap, setItems }:
 { categoriesMap: CategoriesMap;
@@ -71,7 +71,7 @@ export const ItemsContainer = ({ categoriesMap, items, locationsMap, setItems }:
         </>
       )}
       {
-        showAddEditItemForm && <AddItemForm
+        showAddEditItemForm && <AddEditItemForm
           categoriesMap={categoriesMap}
           itemToEdit={itemToEdit}
           items={items}

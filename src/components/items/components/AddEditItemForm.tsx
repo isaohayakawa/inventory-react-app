@@ -6,7 +6,7 @@ import type { LocationsMap } from "../../../interfaces/locationsMap";
 import type { Item } from "../../../interfaces/item";
 import { toaster } from "../../ui/toaster";
 
-export const AddItemForm = ({
+export const AddEditItemForm = ({
   categoriesMap,
   itemToEdit,
   items,
@@ -24,7 +24,6 @@ export const AddItemForm = ({
   setShowEditAddItemForm: (show: boolean) => void;
 }) => {
     const [showDuplicateItemMessage, setShowDuplicateItemMessage] = useState(false)
-    const [showExpiredItemMessage, setShowExpiredItemMessage] = useState(false)
     const [duplicateItem, setDuplicateItem] = useState<Item | null>(null)
     const [name, setName] = useState("")
     const [nameIsInvalid, setNameIsInvalid] = useState(false)
