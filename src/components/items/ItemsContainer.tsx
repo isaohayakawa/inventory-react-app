@@ -17,7 +17,8 @@ export const ItemsContainer = ({ categoriesMap, items, locationsMap, setItems }:
 }) => {
   const [itemsToDisplay, setItemsToDisplay] = useState(items)
   const [searchInputValue, setSearchInputValue] = useState("")
-  const [showAddItemForm, setShowAddItemForm] = useState(false)
+  const [showAddEditItemForm, setShowEditAddItemForm] = useState(false)
+  const [itemToEdit, setItemToEdit] = useState<Item | null>(null)
   const search = (searchValue: string) => {
     if (searchValue === "" || !searchValue) {
       setItemsToDisplay(items)
@@ -50,9 +51,9 @@ export const ItemsContainer = ({ categoriesMap, items, locationsMap, setItems }:
       borderColor="border.disabled"
       color="fg.disabled"
     >
-      {!showAddItemForm && (
+      {!showAddEditItemForm && (
         <>
-          <ItemsToolbar setShowAddItemForm={setShowAddItemForm} />
+          <ItemsToolbar setShowEditAddItemForm={setShowEditAddItemForm} />
           <SearchBar
             search={search}
             searchItemName="item name"
@@ -63,17 +64,21 @@ export const ItemsContainer = ({ categoriesMap, items, locationsMap, setItems }:
             items={items}
             itemsToDisplay={itemsToDisplay}
             locationsMap={locationsMap}
+            setItemToEdit={setItemToEdit}
             setItems={setItems}
+            setShowEditAddItemForm={setShowEditAddItemForm}
           />
         </>
       )}
       {
-        showAddItemForm && <AddItemForm
+        showAddEditItemForm && <AddItemForm
           categoriesMap={categoriesMap}
+          itemToEdit={itemToEdit}
           items={items}
           locationsMap={locationsMap}
           setItems={setItems}
-          setShowAddItemForm={setShowAddItemForm} 
+          setItemToEdit={setItemToEdit}
+          setShowEditAddItemForm={setShowEditAddItemForm} 
         />
       }
     </Container>

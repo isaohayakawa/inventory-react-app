@@ -5,7 +5,7 @@ const BUTTON_SIZE = "xs"
 const BUTTON_TEXT_COLOR = "black"
 const ICON_SIZE = 10
 
-export const ItemsToolbar = ({ setShowAddItemForm }: { setShowAddItemForm: (show: boolean) => void}) => {
+export const ItemsToolbar = ({ setShowEditAddItemForm }: { setShowEditAddItemForm: (show: boolean) => void}) => {
     return (
       <Container display="flex" justifyContent="flex-end" width="100%" margin={1}>
         <IconButton
@@ -13,7 +13,7 @@ export const ItemsToolbar = ({ setShowAddItemForm }: { setShowAddItemForm: (show
           size={BUTTON_SIZE}
           color={BUTTON_TEXT_COLOR}
           variant="ghost"
-          onClick={() => setShowAddItemForm(true)}
+          onClick={() => setShowEditAddItemForm(true)}
           padding={1}
         >
           <Plus size={ICON_SIZE} />
