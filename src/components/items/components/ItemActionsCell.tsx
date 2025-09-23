@@ -8,10 +8,12 @@ const BUTTON_SIZE = "xs"
 const BUTTON_VARIANT = "ghost"
 const ICON_SIZE = 10
 
-export const ItemActionsCell = ({ item, items, setItems }: {
+export const ItemActionsCell = ({ item, items, setItems, setItemToEdit, setShowEditAddItemForm }: {
   item: Item;
   items: Item[];
   setItems: (items: Item[]) => void;
+  setItemToEdit: (item: Item | null) => void;
+  setShowEditAddItemForm: (show: boolean) => void;
 }) => {
 
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false)
@@ -58,6 +60,11 @@ export const ItemActionsCell = ({ item, items, setItems }: {
     }))
   }
 
+  const editAction = () => {
+    setItemToEdit(item)
+    setShowEditAddItemForm(true)
+  }
+
   const deleteAction = () => {
     setDeleteConfirmationOpen(true)
   }
@@ -79,6 +86,7 @@ export const ItemActionsCell = ({ item, items, setItems }: {
           <IconButton
             aria-label="Edit item"
             size={BUTTON_SIZE}
+            onClick={editAction}
             variant={BUTTON_VARIANT}
           >
             <Pencil size={ICON_SIZE} />

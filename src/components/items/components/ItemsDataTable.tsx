@@ -12,13 +12,17 @@ export const ItemsDataTable = ({
   items,
   itemsToDisplay,
   locationsMap,
-  setItems
+  setItems,
+  setItemToEdit,
+  setShowEditAddItemForm
 }: {
   categoriesMap: CategoriesMap;
   items: Item[];
   itemsToDisplay: Item[];
   locationsMap: LocationsMap;
   setItems: (items: Item[]) => void;
+  setItemToEdit: (item: Item | null) => void;
+  setShowEditAddItemForm: (show: boolean) => void;
 }) => {
   
 
@@ -46,6 +50,8 @@ export const ItemsDataTable = ({
               item={item}
               items={items}
               setItems={setItems}
+              setItemToEdit={setItemToEdit}
+              setShowEditAddItemForm={setShowEditAddItemForm}
             />
           </Table.Row>
         ))}

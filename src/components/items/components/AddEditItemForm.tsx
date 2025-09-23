@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { Alert, Box, Button, Container, Field, Input, NativeSelect, SimpleGrid } from "@chakra-ui/react"
 import short from 'short-uuid'
 import type { CategoriesMap } from "../../../interfaces/categoryMap"
@@ -6,18 +6,22 @@ import type { LocationsMap } from "../../../interfaces/locationsMap";
 import type { Item } from "../../../interfaces/item";
 import { toaster } from "../../ui/toaster";
 
-export const AddItemForm = ({
+export const AddEditItemForm = ({
   categoriesMap,
+  itemToEdit,
   items,
   locationsMap,
   setItems,
-  setShowAddItemForm
+  setItemToEdit,
+  setShowEditAddItemForm
 }: {
   categoriesMap: CategoriesMap;
+  itemToEdit: Item | null;
   items: Item[];
   locationsMap: LocationsMap;
   setItems: (items: Item[]) => void;
-  setShowAddItemForm: (show: boolean) => void;
+  setItemToEdit: (item: Item | null) => void;
+  setShowEditAddItemForm: (show: boolean) => void;
 }) => {
     const [showDuplicateItemMessage, setShowDuplicateItemMessage] = useState(false)
     const [duplicateItem, setDuplicateItem] = useState<Item | null>(null)
@@ -31,8 +35,23 @@ export const AddItemForm = ({
     const [quantityIsInvalid, setQuantityIsInvalid] = useState(false)
     const [quantityPerPackaging, setQuantityPerPackaging] = useState(0)
     const [quantityPerPackagingIsInvalid, setQuantityPerPackagingIsInvalid] = useState(false)
+    const [unitsLeft, setUnitsLeft] = useState(0) // only for edit mode
+    const [unitsLeftIsInvalid, setUnitsLeftIsInvalid] = useState(false)
     const [upc, setUpc] = useState("")
     const [expirationDate, setExpirationDate] = useState("")
+
+    useEffect(() => {
+      if (itemToEdit) {
+        setName(itemToEdit.name)
+        setSelectedCategory(itemToEdit.categoryId)
+        setSelectedLocation(itemToEdit.locationId)
+        setQuantity(itemToEdit.quantity)
+        setQuantityPerPackaging(itemToEdit.totalQuantityPerPackaging || 0)
+        setUnitsLeft(itemToEdit.quantityPerPackaging || 0)
+        setUpc(itemToEdit.upc || "")
+        setExpirationDate(itemToEdit.expirationDate || "")
+      }
+    }, [itemToEdit])
 
     const onChangeName = (evt: ChangeEvent<HTMLInputElement>) => {
       const inputtedName = evt.target.value
@@ -78,6 +97,17 @@ export const AddItemForm = ({
       
       setQuantityIsInvalid(false)
       setQuantity(inputtedQuantity)
+    }
+
+    const onChangeUnitsLeft = (evt: ChangeEvent<HTMLInputElement>) => {
+      const inputtedQuantity = Number(evt.target.value)
+      if (inputtedQuantity < 1 || inputtedQuantity > quantityPerPackaging) {
+        setUnitsLeftIsInvalid(true)
+        return
+      }
+      
+      setUnitsLeftIsInvalid(false)
+      setUnitsLeft(inputtedQuantity)
     }
 
     const onChangeQuantityPerPackage = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -132,7 +162,7 @@ export const AddItemForm = ({
 
         if (!selectedCategory) {
           setSelectedCategoryIsInvalid(true)
-        }setSelectedLocationIsInvalid
+        }
 
         if (!selectedLocation) {
           setSelectedLocationIsInvalid(true)
@@ -142,6 +172,36 @@ export const AddItemForm = ({
       }
 
       resetInvalidFlags()
+
+      if (itemToEdit) {
+        if (itemToEdit && quantityPerPackaging > 0 && (unitsLeft < 1 || unitsLeft > quantityPerPackaging)) {
+          setUnitsLeftIsInvalid(true)
+          return
+        }
+
+        const newItems = [...items]
+        setItems(newItems.map((currentItem) => {
+          if (itemToEdit.id === currentItem.id) {
+            return {
+              id: itemToEdit.id,
+              name,
+              image: null,
+              categoryId: selectedCategory,
+              locationId: selectedLocation,
+              quantity,
+              quantityPerPackaging: quantityPerPackaging > 0 ? unitsLeft : null,
+              totalQuantityPerPackaging: quantityPerPackaging > 0 ? quantityPerPackaging : null,
+              upc,
+              expirationDate,
+            }
+          } else {
+            return currentItem
+          }
+        }))
+        setItemToEdit(null)
+        setShowEditAddItemForm(false)
+        return
+      }
       
       const uuid = short.generate().toString()
       setItems([
@@ -159,7 +219,7 @@ export const AddItemForm = ({
           expirationDate,
         }
       ])
-      setShowAddItemForm(false)
+      setShowEditAddItemForm(false)
     }
 
     const incrementDuplicateProduct = () => {
@@ -177,11 +237,16 @@ export const AddItemForm = ({
 
       setItems(newItems)
       setShowDuplicateItemMessage(false)
-      setShowAddItemForm(false)
+      setShowEditAddItemForm(false)
       toaster.create({
         title: `${name} has been incremented by 1`,
         type: "info"
       })
+    }
+
+    const cancel = () => {
+      setShowEditAddItemForm(false)
+      setItemToEdit(null) // if editing
     }
     
     return (
@@ -262,11 +327,23 @@ export const AddItemForm = ({
                 </Container>
                 <Container margin={0} padding={0}> 
                   <Field.Root invalid={quantityPerPackagingIsInvalid}>
-                    <Field.Label>Quantity Per Package</Field.Label>
+                    <Field.Label>Units Per Package</Field.Label>
                     <Input type="number" placeholder="Optional" onChange={onChangeQuantityPerPackage} value={quantityPerPackaging} />
                   </Field.Root>
                 </Container>
               </SimpleGrid>
+              {
+                itemToEdit && quantityPerPackaging > 0 && (
+                  <SimpleGrid columns={2}  gap="20px">
+                    <Container margin={0} padding={0}>
+                      <Field.Root required invalid={unitsLeftIsInvalid}>
+                        <Field.Label>Units Remaining (Opened Package)<Field.RequiredIndicator /></Field.Label>
+                        <Input type="number" placeholder="" onChange={onChangeUnitsLeft} value={unitsLeft} />
+                      </Field.Root>
+                    </Container>
+                  </SimpleGrid>
+                )
+              }
             </Container>
           </Container>
           <Container>
@@ -289,7 +366,7 @@ export const AddItemForm = ({
             <Button variant="outline" onClick={submit} disabled={nameIsInvalid || quantityIsInvalid}>Save</Button>
           </Box>
           <Box margin="2">
-            <Button variant="outline" onClick={() => setShowAddItemForm(false)}>Cancel</Button>
+            <Button variant="outline" onClick={cancel}>Cancel</Button>
           </Box>
         </Container>
       </Box>
