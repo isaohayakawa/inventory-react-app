@@ -10,3 +10,7 @@ export interface Item {
     upc: string | null;
     expirationDate: string | null;
 }
+
+export interface DisposedItem extends Item {
+    disposedDate: string;
+}

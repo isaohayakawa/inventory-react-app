@@ -9,8 +9,9 @@ import type { LocationsMap } from '../../interfaces/locationsMap'
 import { ItemsToolbar } from './components/ItemsToolbar'
 import { AddEditItemForm } from './components/AddEditItemForm'
 
-export const ItemsContainer = ({ categoriesMap, items, locationsMap, setItems }:
+export const ItemsContainer = ({ categoriesMap, disposeItem, items, locationsMap, setItems }:
 { categoriesMap: CategoriesMap;
+  disposeItem: (item: Item) => void;
   items: Item[];
   locationsMap: LocationsMap;
   setItems: (items: Item[]) => void;
@@ -61,6 +62,7 @@ export const ItemsContainer = ({ categoriesMap, items, locationsMap, setItems }:
           />
           <ItemsDataTable
             categoriesMap={categoriesMap}
+            disposeItem={disposeItem}
             items={items}
             itemsToDisplay={itemsToDisplay}
             locationsMap={locationsMap}

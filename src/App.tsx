@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Box, Tabs } from '@chakra-ui/react'
 import { ChartLine, MapPin, Package, Tag } from 'lucide-react'
+import dayjs from 'dayjs'
 import { Toaster } from './components/ui/toaster'
 
 import { AddCategoryDialog } from './components/AddCategoryDialog'
@@ -11,11 +12,12 @@ import { ItemsContainer } from './components/items/ItemsContainer'
 import { LocationsContainer } from './components/locations/LocationsContainer'
 
 // interfaces
-import type { Item } from './interfaces/item'
+import type { DisposedItem, Item } from './interfaces/item'
 import type { CategoriesMap } from './interfaces/categoryMap'
 import type { LocationsMap } from './interfaces/locationsMap'
 
 // data consts
+import { DISPOSED_ITEMS_DATA } from './data/disposedItems'
 import { ITEMS_DATA } from './data/items'
 import { CATEGORIES_DATA } from './data/categories'
 import { LOCATIONS_DATA } from './data/locations'
@@ -29,8 +31,19 @@ function App() {
   const [items, setItems] = useState<Item[]>(ITEMS_DATA)
   const [categoriesMap, setCategoriesMap] = useState<CategoriesMap>(generateCategories(CATEGORIES_DATA, items))
   const [locationsMap, setLocationsMap] = useState<LocationsMap>(mapLocations(LOCATIONS_DATA, items))
+  const [disposedItems, setDisposedItems] = useState<DisposedItem[]>(DISPOSED_ITEMS_DATA)
   const [showAddCategoryDialog, setShowAddCategoryDialog] = useState(false)
   const [showAddLocationDialog, setShowAddLocationDialog] = useState(false)
+
+  const disposeItem = (item: Item) => {
+    setDisposedItems([
+      ...disposedItems,
+      {
+        ...item,
+        disposedDate: dayjs().format('YYYYMMDD')
+      }
+    ])
+  }
 
   return (
     <Box width="100%">
@@ -57,6 +70,7 @@ function App() {
         <Tabs.Content value="items" className="tab-content">
           <ItemsContainer
             categoriesMap={categoriesMap}
+            disposeItem={disposeItem}
             items={items}
             locationsMap={locationsMap}
             setItems={setItems}

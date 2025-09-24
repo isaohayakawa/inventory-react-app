@@ -1,0 +1,80 @@
+export const DISPOSED_ITEMS_DATA = [
+    {
+        id: "100",
+        name: "Bag of arugula",
+        image: null,
+        categoryId: "2",
+        locationId: "2",
+        quantity: 1,
+        quantityPerPackaging: null,
+        totalQuantityPerPackaging: null,
+        upc: null,
+        expirationDate: "2025-08-14",
+        disposedDate: "2025-08-17"
+    },
+    {
+        id: "101",
+        name: "Bell & Evans Bone In Chicken Thigh",
+        image: null,
+        categoryId: "2",
+        locationId: "2",
+        quantity: 1,
+        quantityPerPackaging: null,
+        totalQuantityPerPackaging: null,
+        upc: null,
+        expirationDate: "2025-08-24",
+        disposedDate: "2025-08-24"
+    },
+    {
+        id: "102",
+        name: "Bag of broccoli",
+        image: null,
+        categoryId: "2",
+        locationId: "2",
+        quantity: 1,
+        quantityPerPackaging: null,
+        totalQuantityPerPackaging: null,
+        upc: null,
+        expirationDate: "2025-08-19",
+        disposedDate: "2025-08-26"
+    },
+    {
+        id: "103",
+        name: "S&W, Organic Garbanzo Beans, 15.5 oz",
+        image: null,
+        categoryId: "2",
+        locationId: "1",
+        quantity: 1,
+        quantityPerPackaging: 5,
+        totalQuantityPerPackaging: 8,
+        upc: null,
+        expirationDate: "2025-08-19",
+        disposedDate: "2025-09-02"
+    },
+    {
+        id: "104",
+        name: "Shitake mushrooms",
+        image: null,
+        categoryId: "2",
+        locationId: "2",
+        quantity: 1,
+        quantityPerPackaging: null,
+        totalQuantityPerPackaging: null,
+        upc: null,
+        expirationDate: "2025-09-17",
+        disposedDate: "2025-09-19"
+    },
+    {
+        id: "105",
+        name: "Flour",
+        image: null,
+        categoryId: "2",
+        locationId: "1",
+        quantity: 1,
+        quantityPerPackaging: null,
+        totalQuantityPerPackaging: null,
+        upc: null,
+        expirationDate: "2025-09-19",
+        disposedDate: "2025-09-23"
+    }
+]
