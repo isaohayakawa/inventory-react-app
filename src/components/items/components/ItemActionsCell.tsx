@@ -3,12 +3,14 @@ import { Button, CloseButton, Dialog, IconButton, Portal, Table } from "@chakra-
 import { Minus, Pencil, Trash } from 'lucide-react'
 import type { Item } from "../../../interfaces/item"
 import { Tooltip } from '../../ui/tooltip'
+import dayjs from 'dayjs'
 
 const BUTTON_SIZE = "xs"
 const BUTTON_VARIANT = "ghost"
 const ICON_SIZE = 10
 
-export const ItemActionsCell = ({ item, items, setItems, setItemToEdit, setShowEditAddItemForm }: {
+export const ItemActionsCell = ({ disposeItem, item, items, setItems, setItemToEdit, setShowEditAddItemForm }: {
+  disposeItem: (item: Item) => void;
   item: Item;
   items: Item[];
   setItems: (items: Item[]) => void;
@@ -69,6 +71,19 @@ export const ItemActionsCell = ({ item, items, setItems, setItemToEdit, setShowE
     setDeleteConfirmationOpen(true)
   }
 
+  const confirmDeleteItem = () => {
+    if (item.expirationDate && dayjs(item.expirationDate).isBefore(dayjs())) {
+      disposeItem(item)
+    }
+
+    deleteItem()
+  }
+
+  const disposeAction = () => {
+    disposeItem(item)
+    deleteItem()
+  }
+
   return (
     <>
       <Table.Cell>
@@ -117,10 +132,11 @@ export const ItemActionsCell = ({ item, items, setItems, setItemToEdit, setShowE
                 </p>
               </Dialog.Body>
               <Dialog.Footer>
+                {item?.expirationDate && <Button variant="outline" onClick={disposeAction}>Dispose</Button>}
+                <Button variant="outline" onClick={confirmDeleteItem}>Delete</Button>
                 <Dialog.ActionTrigger asChild>
                   <Button variant="outline" onClick={closeDeleteConfirmationDialog}>No</Button>
                 </Dialog.ActionTrigger>
-                <Button variant="outline" onClick={deleteItem}>Yes</Button>
               </Dialog.Footer>
               <Dialog.CloseTrigger asChild onClick={closeDeleteConfirmationDialog}>
                 <CloseButton size="sm" />

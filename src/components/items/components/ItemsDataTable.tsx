@@ -9,6 +9,7 @@ import { ItemActionsCell } from "./ItemActionsCell";
 
 export const ItemsDataTable = ({
   categoriesMap,
+  disposeItem,
   items,
   itemsToDisplay,
   locationsMap,
@@ -17,6 +18,7 @@ export const ItemsDataTable = ({
   setShowEditAddItemForm
 }: {
   categoriesMap: CategoriesMap;
+  disposeItem: (item: Item) => void;
   items: Item[];
   itemsToDisplay: Item[];
   locationsMap: LocationsMap;
@@ -47,6 +49,7 @@ export const ItemsDataTable = ({
             <ItemQuantityCell item={item} />
             <ItemExpirationDateCell item={item} />
             <ItemActionsCell
+              disposeItem={disposeItem}
               item={item}
               items={items}
               setItems={setItems}
